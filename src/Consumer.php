@@ -100,9 +100,9 @@ class Consumer
                 )
                 ->toArray();
             $properties = array_merge($properties, $props);
-          
+
         }
-            
+
         // Create new object of the correct type
         $typeProperty = Linq::from($properties)
             ->firstOrNull(
@@ -122,7 +122,7 @@ class Consumer
         // Fallback for title
         if ($this->useFallbackMode && !$object->title) {
             $titleElement = $crawler->filter("title")->first();
-            if ($titleElement) {
+            if ($titleElement && $titleElement->count()) {
                 $object->title = trim($titleElement->text());
             }
         }
@@ -130,7 +130,7 @@ class Consumer
         // Fallback for description
         if ($this->useFallbackMode && !$object->description) {
             $descriptionElement = $crawler->filter("meta[property='description']")->first();
-            if ($descriptionElement) {
+            if ($descriptionElement && $descriptionElement->count()) {
                 $object->description = trim($descriptionElement->attr("content"));
             }
         }
